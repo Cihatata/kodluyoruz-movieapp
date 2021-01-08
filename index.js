@@ -12,13 +12,23 @@ const recFilm = async () => {
   await getFilm();
   const filmEl = filmData.map((film) => {
     return (`
-      <div class="card" style="width: 33%;">
-        <img src="${IMG_PATH}${film.backdrop_path}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">${film.original_title}</h5>
-          <p class="card-text">${film.overview}</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 mt-5 movie">
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img src="${IMG_PATH}${film.backdrop_path}" class="card-img-top" alt="...">
+            <div class="card-body card">
+              <h5 class="card-title text-light">${film.original_title}</h5>
+              </div>
+            </div>
+            <div class="flip-card-back">
+            <div class="overview">
+            <h3>Overview</h3>
+            <p class="card-text text-light">${film.overview}</p>
+            </div>
+            </div>
+            </div>
           </div>
        ` )
   })
@@ -34,9 +44,12 @@ chk.addEventListener('change', () => {
   document.querySelectorAll('.card').forEach((item, index) => {
     document.querySelectorAll('.card')[index].classList.toggle('carddark')
   })
+
   document.querySelector('#navbar').classList.toggle('carddark');
-  document.querySelector('#navbar').classList.toggle('bg-light');
   document.querySelector('#search').classList.toggle('dark');
+  document.querySelectorAll(".flip-card-back").forEach((item) => {
+      item.classList.toggle("carddark")
+  })
 });
 recFilm();
 

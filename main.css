@@ -1,47 +1,110 @@
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: #5b151f;
+}
 body.dark {
-    background: #292C35;
-  } 
-  .carddark {
-  background:#4f525c;
-  color: #f0ffff;
-  }
-  .dark {
-    background: #292C35;
-  }
-  .dark:focus{
-    background-color: #111648;
-  }
-  .checkbox {
-    opacity: 0;
-    position: absolute;
-  }
+  background: #292c35;
+}
+.carddark {
+  background: #4f525c !important;
+  color: #f0fff0 !important;
+}
+.dark {
+  background: #292c35;
+}
+.dark:focus {
+  background-color: #111648;
+}
+.checkbox {
+  opacity: 0;
+  position: absolute;
+}
 
-  .label {
-    background-color: #111;
-    border-radius: 50px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px;
-    position: relative;
-    height: 26px;
-    width: 50px;
-    transform: scale(1.5);
-  }
-  
-  .label .ball {
-    background-color: #fff;
-    border-radius: 50%;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    height: 22px;
-    width: 22px;
-    transform: translateX(0px);
-    transition: transform 0.2s linear;
-  }
-  
-  .checkbox:checked + .label .ball {
-    transform: translateX(24px);
-  }
+.label {
+  background-color: #111;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  position: relative;
+  height: 26px;
+  width: 50px;
+  transform: scale(1.5);
+}
+
+.label .ball {
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  height: 22px;
+  width: 22px;
+  transform: translateX(0px);
+  transition: transform 0.2s linear;
+}
+
+.checkbox:checked + .label .ball {
+  transform: translateX(24px);
+}
+.card {
+  background-color: #c35766;
+}
+.movie {
+  position: relative;
+  overflow: hidden;
+}
+.card-text {
+  font-size: 14px;
+}
+h3 {
+  font-size: 1rem;
+}
+.overview {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 246px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the back side */
+.flip-card-back {
+  transform: rotateY(180deg);
+  background-color: #ef788a;
+}
