@@ -36,6 +36,4 @@ const rootEl = document.querySelector("#root");
 
 recFilm();
     
-}
 
-recFilm();
