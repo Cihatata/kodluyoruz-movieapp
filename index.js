@@ -28,12 +28,12 @@ const recFilm = async () => {
 const rootEl = document.querySelector("#root");
   filmEl.forEach(film =>rootEl.innerHTML += film )
      
-     
-  
- 
-    
+         
 }
 
 recFilm();
+const toggleBtn = document.querySelector('#toggleIT');
+
+toggleBtn.addEventListener('click' , () => document.body.classList.toggle('dark-theme'));
     
 
