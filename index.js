@@ -10,9 +10,8 @@ const getFilm = async () => {
 
 const recFilm = async () => {
   await getFilm();
-  const filmEl  =  filmData.map((film) => {
+  const filmEl = filmData.map((film) => {
     return (`
-    
       <div class="card" style="width: 33%;">
         <img src="${IMG_PATH}${film.backdrop_path}" class="card-img-top" alt="...">
         <div class="card-body">
@@ -20,20 +19,25 @@ const recFilm = async () => {
           <p class="card-text">${film.overview}</p>
           <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
-    
-      </div>
-    
-   ` )
+          </div>
+       ` )
   })
-const rootEl = document.querySelector("#root");
-  filmEl.forEach(film =>rootEl.innerHTML += film )
-     
-     
-  
- 
-    
+  const rootEl = document.querySelector("#root");
+  filmEl.forEach(film => rootEl.innerHTML += film)
 }
 
+const chk = document.getElementById('chk');
+
+chk.addEventListener('change', () => {
+  document.body.classList.toggle('dark');
+  console.log(document.querySelectorAll('.card'));
+  document.querySelectorAll('.card').forEach((item, index) => {
+    document.querySelectorAll('.card')[index].classList.toggle('carddark')
+  })
+  document.querySelector('#navbar').classList.toggle('carddark');
+  document.querySelector('#navbar').classList.toggle('bg-light');
+  document.querySelector('#search').classList.toggle('dark');
+});
 recFilm();
-    
+
 
