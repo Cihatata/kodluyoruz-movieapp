@@ -26,7 +26,12 @@ const recFilm = async () => {
    ` )
   })
   const rootEl = document.querySelector("#root");
-  rootEl.innerHTML= filmEl;
+  for(let i=0;i<filmEl.length;i++){
+     rootEl.innerHTML += filmEl[i];
+     
+  }
+ 
+    
 }
 
 recFilm();
