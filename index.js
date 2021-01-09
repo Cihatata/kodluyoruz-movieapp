@@ -1,20 +1,30 @@
 
 const FILM_API = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=3fd2be6f0c70a2a598f084ddfb75487c&page='
 const IMG_PATH = 'https://image.tmdb.org/t/p/w500';
-const SEARCH_API = 'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query='
+const SEARCH_API = 'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query=';
+const ITEMS_PER_PAGE = 20;
+let currentPage = 0;
+let buttonNumbers = 0;
 let filmData;
 
-const getFilm = async (api) => {
-  const rawResponse = await fetch(`${api}`);
+const getFilm = async (api, options = {page:1, initialRequest: false}) => {
+  const rawResponse = await fetch(`${api}${options.page}`);
   const data = await rawResponse.json();
   filmData = data.results;
+
   renderCard(filmData);
+
+  if (options.initialRequest) {
+    renderPageItems();
+  }
+
 }
 
-const recFilm = async () => {
-  //await getFilm(FILM_API);
-  getFilm(FILM_API);
+const recFilm = options => {
+  getFilm(FILM_API, options);
 }
+
+recFilm({page: 1, initialRequest: true});
 
 const renderCard = (films) => {
   const filmEl = films.map((film) => {
@@ -44,6 +54,81 @@ const renderCard = (films) => {
   filmEl.forEach(film => rootEl.innerHTML += film)
 }
 
+$ul = document.querySelector("#page-buttons");
+const renderPageItems = () => {
+  const buttonNumbers = 5;
+
+  // Create previous button
+  const $previousLiItem = document.createElement("li");
+  const $previousAItem = document.createElement("a");
+  $previousAItem.classList.add("page-link");
+  $previousLiItem.classList.add("page-item");
+  $previousLiItem.appendChild($previousAItem);
+  $previousAItem.textContent = "Previous";
+  $previousLiItem.onclick = () => {
+    if (currentPage > 1) {
+      console.log("Previous current page: " + (currentPage - 1));
+      currentPage = currentPage - 1;
+
+      const activeClass = document.querySelector(".active");
+      if (activeClass) {
+        document.querySelector(".active").classList.remove("active");
+      }
+      document.querySelector("#pageButton" + currentPage).classList.add("active");
+
+      recFilm({page: currentPage});
+    }
+  }
+  $ul.appendChild($previousLiItem);
+
+  // Create page buttons
+  for (let i = 1; i < buttonNumbers + 1; i++) {
+    const $liItem = document.createElement("li");
+    const $aItem = document.createElement("a");
+    $aItem.classList.add("page-link");
+    $liItem.classList.add("page-item");
+    $liItem.setAttribute("id", "pageButton" + i);
+    $liItem.appendChild($aItem);
+    $aItem.textContent = i;
+    $liItem.onclick = () => {
+
+      const activeClass = document.querySelector(".active");
+      if (activeClass) {
+        document.querySelector(".active").classList.remove("active");
+      }
+      document.querySelector("#pageButton" + i).classList.add("active");
+      currentPage = i;
+
+      recFilm({page: currentPage})
+    }
+    $ul.appendChild($liItem);
+  }
+
+  // Create next button
+  const $nextLiItem = document.createElement("li");
+  const $nextAItem = document.createElement("a");
+  $nextAItem.classList.add("page-link");
+  $nextLiItem.classList.add("page-item");
+  $nextLiItem.appendChild($nextAItem);
+  $nextAItem.textContent = "Next";
+  $nextLiItem.onclick = () => {
+    if (currentPage < buttonNumbers) {
+      console.log("Next current page: " + (currentPage + 1));
+
+      currentPage = currentPage + 1;
+
+      const activeClass = document.querySelector(".active");
+      if (activeClass) {
+        document.querySelector(".active").classList.remove("active");
+      }
+      document.querySelector("#pageButton" + currentPage).classList.add("active");
+
+      recFilm({page: currentPage});
+    }
+  }
+  $ul.appendChild($nextLiItem);
+}
+
 const chk = document.getElementById('chk');
 
 chk.addEventListener('change', () => {
@@ -59,12 +144,9 @@ chk.addEventListener('change', () => {
       item.classList.toggle("carddark")
   })
 });
-recFilm();
-
 
 const searchEl = document.querySelector('#formSearch');
 const searchValue = document.querySelector('#search');
-console.log(searchEl);
 searchEl.addEventListener('submit', (e) => {
   e.preventDefault();
   if (searchValue.value) {
@@ -79,31 +161,3 @@ searchValue.addEventListener('change', (e) => {
     getFilm(FILM_API);
   }
 })
-const select = () => {
-
-}
-
-let currentPage = 0;
-document.querySelector('#page1').addEventListener('click', () => {
-  getFilm(`${FILM_API}${index++}`)
-})
-document.querySelector('#page2').addEventListener('click', () => {
-  getFilm(`${FILM_API}${index++}`)
-})
-document.querySelector('#page3').addEventListener('click', () => {
-  getFilm(`${FILM_API}${index++}`)
-})
-
-
-const pageList = document.querySelectorAll('.page-link')
-pageList.forEach((item, index) => {
-  // item.onclick = () => {
-  //   getFilm(`${FILM_API}${index}`)
-  // }
-  document.querySelector(`page${index++}`).addEventListener('click', () => {
-  getFilm(`${FILM_API}${index++}`)
-})
-})
-
-
-
